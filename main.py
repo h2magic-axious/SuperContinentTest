@@ -33,7 +33,7 @@ if __name__ == '__main__':
         const.ARMOR: 0,
         const.SHIELD: 0,
         const.LOAD: 100,
-        const.DODGE: 10
+        const.DODGE: 50
     }
 
     SB = {
@@ -43,7 +43,7 @@ if __name__ == '__main__':
         const.ARMOR: 0,
         const.SHIELD: 0,
         const.LOAD: 100,
-        const.DODGE: 10
+        const.DODGE: 50
     }
     a, b, t = test(SA, SB)
     # result = []

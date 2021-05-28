@@ -3,6 +3,10 @@ import random
 from common import const
 
 
+def compute_damage(attack, defense):
+    return attack * (1 - defense * const.S / (1 + defense * const.S))
+
+
 class Solider:
     def __init__(self, name, kwargs: dict):
         self.name = name
@@ -10,10 +14,12 @@ class Solider:
         # self.belong = belong
 
         self.health = kwargs.get(const.HEALTH)
-        self.p_damage = kwargs.get(const.P_DAMAGE)
-        self.e_damage = kwargs.get(const.E_DAMAGE)
-        self.armor = kwargs.get(const.ARMOR)
-        self.shield = kwargs.get(const.SHIELD)
+        self.attributes = {
+            const.P_DAMAGE: kwargs.get(const.P_DAMAGE),
+            const.E_DAMAGE: kwargs.get(const.E_DAMAGE),
+            const.ARMOR: kwargs.get(const.ARMOR),
+            const.SHIELD: kwargs.get(const.SHIELD)
+        }
 
         self.weight = 0
         self.load = kwargs.get(const.LOAD)
@@ -25,7 +31,7 @@ class Solider:
         self.arms = dict()
 
     def update_dodge(self):
-        dodge = self.base_dodge * (1 + self.weight / self.load) / 100
+        dodge = self.base_dodge * (1 - self.weight / self.load) / 100
         if dodge > 0.9:
             self.dodge = 0.9
         else:
@@ -34,9 +40,20 @@ class Solider:
     def attack(self, other):
         # 被攻击方闪避失败
         if random.random() > other.dodge or other.dodge == 0:
-            p_damage = self.p_damage * (1 - other.armor * const.S / (1 + other.armor * const.S))
-            e_damage = self.e_damage * (1 - other.shield * const.S / (1 + other.shield * const.S))
+            p_damage = compute_damage(self.attributes[const.P_DAMAGE], other.attributes[const.ARMOR])
+            e_damage = compute_damage(self.attributes[const.E_DAMAGE], other.attributes[const.SHIELD])
             other.health -= p_damage + e_damage
+
+    def add_arm(self, e_name, e_object):
+        weight = self.weight + e_object.weight
+        if weight > self.load:
+            return
+
+        self.arms[e_name] = e_object
+        self.weight = weight
+
+        self.update_dodge()
+        self.attributes[e_object.type_] += e_object.data
 
 
 def fighting(s1: Solider, s2: Solider):

@@ -1,20 +1,18 @@
 # keywords
-HEALTH = 'health'
-DODGE = 'dodge'
-ARMOR = 'armor'
-SHIELD = 'shield'
-WEIGHT = 'weight'
-LOAD = 'load'
 P_DAMAGE = 'p_damage'
 E_DAMAGE = 'e_damage'
+ARMOR = 'armor'
+SHIELD = 'shield'
+FLEXIBILITY = 'flexibility',
+SPEED = 'speed'
+
+HEALTH = 'health'
+DODGE = 'dodge'
+WEIGHT = 'weight'
+LOAD = 'load'
 DEFENSE = 'defense'
 TYPE = 'type'
-
-# equipment category
-P_WEAPON = 'pw'
-E_WEAPON = 'ew'
-A_PROTECT = 'ap'
-E_PROTECT = 'ep'
+DATA = 'data'
 
 # base const
 S = 0.06  # 减伤系数

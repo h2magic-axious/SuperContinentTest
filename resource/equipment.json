@@ -1,0 +1,14 @@
+{
+  "armor": {
+    "health": 100,
+    "weight": 20,
+    "data": 10,
+    "type": "armor"
+  },
+  "shield": {
+    "health": 100,
+    "weight": 20,
+    "data": 10,
+    "type": "shield"
+  }
+}
