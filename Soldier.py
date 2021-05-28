@@ -4,8 +4,11 @@ from common import const
 
 
 class Solider:
-    def __init__(self, name, **kwargs):
+    def __init__(self, name, kwargs: dict):
         self.name = name
+        # self.id = ident
+        # self.belong = belong
+
         self.health = kwargs.get(const.HEALTH)
         self.p_damage = kwargs.get(const.P_DAMAGE)
         self.e_damage = kwargs.get(const.E_DAMAGE)
@@ -16,46 +19,36 @@ class Solider:
         self.load = kwargs.get(const.LOAD)
 
         self.base_dodge = kwargs.get(const.DODGE)
-        self.dodge = self.base_dodge * (1 + self.weight / self.load) / 100
+        self.dodge = 0
+        self.update_dodge()
 
-        self.arms = []
+        self.arms = dict()
 
     def update_dodge(self):
-        self.dodge = self.base_dodge * (1 + self.weight / self.load) / 100
-
-    def dead(self):
-        return self.health <= 0
+        dodge = self.base_dodge * (1 + self.weight / self.load) / 100
+        if dodge > 0.9:
+            self.dodge = 0.9
+        else:
+            self.dodge = dodge
 
     def attack(self, other):
         # 被攻击方闪避失败
-        if random.random() < other.dodge:
+        if random.random() > other.dodge or other.dodge == 0:
             p_damage = self.p_damage * (1 - other.armor * const.S / (1 + other.armor * const.S))
             e_damage = self.e_damage * (1 - other.shield * const.S / (1 + other.shield * const.S))
             other.health -= p_damage + e_damage
 
 
-def victory(s1: Solider, s2: Solider):
-    s1_dead = s1.dead()
-    s2_dead = s2.dead()
-
-    if not s1_dead and not s2_dead:
-        return 'c'  # continue
-    elif s1_dead and not s2_dead:
-        return s2.name
-    elif not s1_dead and s2_dead:
-        return s1.name
-    else:
-        return None
-
-
 def fighting(s1: Solider, s2: Solider):
-    w = 'c'
-    while w == 'c':
+    while True:
         s1.attack(s2)
         s2.attack(s1)
 
-        w = victory(s1, s2)
-
-        if w is None:
+        if s1.health <= 0 and s2.health <= 0:
             return None
-    return w
+
+        if s1.health <= 0 and s2.health > 0:
+            return s2.name
+
+        if s2.health <= 0 and s1.health > 0:
+            return s1.name
