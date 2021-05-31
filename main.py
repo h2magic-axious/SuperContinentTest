@@ -1,4 +1,7 @@
+import json
+
 from Soldier import Solider, fighting
+from Equipment import Equipment
 from common import const, core
 
 import numpy as np
@@ -45,6 +48,22 @@ if __name__ == '__main__':
         const.LOAD: 100,
         const.DODGE: 50
     }
+
+    with open("resource/equipment.json", 'r', encoding='utf-8') as f:
+        equipment_map = json.load(f)
+
+    a1 = Equipment('a1', equipment_map['armor'])
+    s1 = Equipment('s1', equipment_map['shield'])
+
+    sa = Solider('SA', SA)
+    sb = Solider('SB', SB)
+
+    sa.add_equipment(a1)
+    sb.add_equipment(s1)
+
+    print(sa)
+    print(sb)
+
     a, b, t = test(SA, SB)
     # result = []
     # for i in range(10, 90):

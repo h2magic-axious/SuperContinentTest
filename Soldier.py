@@ -1,6 +1,8 @@
 import random
 
-from common import const
+from texttable import Texttable
+
+from common import const, core
 
 
 def compute_damage(attack, defense):
@@ -28,7 +30,7 @@ class Solider:
         self.dodge = 0
         self.update_dodge()
 
-        self.arms = dict()
+        self.equipments = dict()
 
     def update_dodge(self):
         dodge = self.base_dodge * (1 - self.weight / self.load) / 100
@@ -44,16 +46,33 @@ class Solider:
             e_damage = compute_damage(self.attributes[const.E_DAMAGE], other.attributes[const.SHIELD])
             other.health -= p_damage + e_damage
 
-    def add_arm(self, e_name, e_object):
+    def add_equipment(self, e_object):
         weight = self.weight + e_object.weight
         if weight > self.load:
             return
 
-        self.arms[e_name] = e_object
+        self.equipments[e_object.name] = e_object
         self.weight = weight
 
         self.update_dodge()
         self.attributes[e_object.type_] += e_object.data
+
+    def __repr__(self):
+        t = Texttable()
+        t.set_deco(Texttable.HEADER)
+        t.set_cols_align(['c', 'c'])
+        t.add_rows([
+            [self.name, ''],
+            ['生命值', self.health],
+            ['物理攻击', self.attributes[const.P_DAMAGE]],
+            ['灵能攻击', self.attributes[const.E_DAMAGE]],
+            ['护甲', self.attributes[const.ARMOR]],
+            ['护盾', self.attributes[const.SHIELD]],
+            ['闪避', self.dodge],
+            ['', '']
+        ])
+
+        return t.draw()
 
 
 def fighting(s1: Solider, s2: Solider):
