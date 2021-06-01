@@ -1,0 +1,56 @@
+{
+  "warrior_1": {
+    "health": 100,
+    "load": 5,
+    "damage": 10,
+    "type": "n"
+  },
+  "warrior_2": {
+    "health": 150,
+    "load": 10,
+    "damage": 15,
+    "type": "n"
+  },
+  "warrior_3": {
+    "health": 200,
+    "load": 20,
+    "damage": 20,
+    "type": "n"
+  },
+  "super_soldier": {
+    "health": 600,
+    "load": 40,
+    "damage": 40,
+    "type": "p"
+  },
+  "alien_warrior": {
+    "health": 800,
+    "load": 80,
+    "damage": 60,
+    "type": "p"
+  },
+  "mechanic_warrior": {
+    "health": 1000,
+    "load": 100,
+    "damage": 80,
+    "type": "p"
+  },
+  "magician": {
+    "health": 300,
+    "load": 60,
+    "damage": 30,
+    "type": "e"
+  },
+  "demon_hunter": {
+    "health": 400,
+    "load": 110,
+    "damage": 40,
+    "type": "e"
+  },
+  "psionic_warrior": {
+    "health": 600,
+    "load": 140,
+    "damage": 50,
+    "type": "e"
+  }
+}

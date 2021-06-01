@@ -30,7 +30,7 @@ def test(SA, SB, number=10000):
 
 if __name__ == '__main__':
     SA = {
-        const.HEALTH: 100,
+        const.HEALTH: 1000,
         const.P_DAMAGE: 10,
         const.E_DAMAGE: 0,
         const.ARMOR: 0,
@@ -40,7 +40,7 @@ if __name__ == '__main__':
     }
 
     SB = {
-        const.HEALTH: 100,
+        const.HEALTH: 1000,
         const.P_DAMAGE: 10,
         const.E_DAMAGE: 0,
         const.ARMOR: 0,
@@ -52,27 +52,29 @@ if __name__ == '__main__':
     with open("resource/equipment.json", 'r', encoding='utf-8') as f:
         equipment_map = json.load(f)
 
-    a1 = Equipment('a1', equipment_map['armor'])
-    s1 = Equipment('s1', equipment_map['shield'])
-
     sa = Solider('SA', SA)
     sb = Solider('SB', SB)
 
-    sa.add_equipment(a1)
-    sb.add_equipment(s1)
+    sa.add_equipment(Equipment('a1', equipment_map[const.ARMOR]))
+    sa.add_equipment(Equipment('a2', equipment_map[const.ARMOR]))
+    sa.add_equipment(Equipment('a3', equipment_map[const.ARMOR]))
+    sb.add_equipment(Equipment('a4', equipment_map[const.ARMOR]))
+
+    winner = fighting(sa, sb)
 
     print(sa)
     print(sb)
+    print("Win: ", winner)
 
-    a, b, t = test(SA, SB)
+    # a, b, t = test(SA, SB)
     # result = []
     # for i in range(10, 90):
     #     SA[const.DODGE] = i
     #     result.append(test(SA, SB))
 
-    print('SA胜率{:.2%}'.format(a))
-    print('SB胜率{:.2%}'.format(b))
-    print('平局率{:.2%}'.format(t))
+    # print('SA胜率{:.2%}'.format(a))
+    # print('SB胜率{:.2%}'.format(b))
+    # print('平局率{:.2%}'.format(t))
 
     # plt.figure(1)
     # x = [i for i in range(10, 90)]

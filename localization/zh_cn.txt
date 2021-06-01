@@ -1,0 +1,9 @@
+warrior_1=勇士
+warrior_2=武士
+warrior_3=特种战士
+super_soldier=超级士兵
+alien_warrior=异形战士
+mechanic_warrior=机械兵
+magician=魔法使
+demon_hunter=猎魔巫师
+psionic_warrior=灵能战士
