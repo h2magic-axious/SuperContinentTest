@@ -17,11 +17,18 @@ class Solider:
 
         self.health = kwargs.get(const.HEALTH)
         self.attributes = {
-            const.P_DAMAGE: kwargs.get(const.P_DAMAGE, 0),
-            const.E_DAMAGE: kwargs.get(const.E_DAMAGE, 0),
+            const.P_DAMAGE: 0,
+            const.E_DAMAGE: 0,
             const.ARMOR: kwargs.get(const.ARMOR, 0),
             const.SHIELD: kwargs.get(const.SHIELD, 0)
         }
+
+        type_ = kwargs.get('type')
+        damage = kwargs.get(const.DAMAGE)
+        if type_ == const.P_SOLDIER or type_ == const.N_SOLDIER:
+            self.attributes[const.P_DAMAGE] = damage
+        if type_ == const.E_SOLDIER:
+            self.attributes[const.E_DAMAGE] = damage
 
         self.weight = 0
         self.load = kwargs.get(const.LOAD)
@@ -51,6 +58,7 @@ class Solider:
             p_damage = compute_damage(self.attributes[const.P_DAMAGE], other.attributes[const.ARMOR])
             e_damage = compute_damage(self.attributes[const.E_DAMAGE], other.attributes[const.SHIELD])
             other.health -= p_damage + e_damage
+
             self.wear(p_damage, e_damage)
             other.wear(p_damage, e_damage, False)
 
@@ -113,6 +121,8 @@ def fighting(s1: Solider, s2: Solider):
     while True:
         s1.attack(s2)
         s2.attack(s1)
+
+        # print(f"战斗中：{s1.name}:{s1.health} VS {s2.name}:{s2.health}")
 
         if s1.health <= 0 and s2.health <= 0:
             return None

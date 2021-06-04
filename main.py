@@ -7,6 +7,15 @@ from common import const, core
 import numpy as np
 import matplotlib.pyplot as plt
 
+with open('resource/soldiers.json', 'r', encoding='utf-8') as f:
+    SOLIDER_MAP = json.load(f)
+
+with open('localization/zh_cn.txt', 'r', encoding='utf-8') as f:
+    LOCALIZATION = dict()
+    for line in f:
+        code, value = line.strip().split('=')
+        LOCALIZATION[code] = value
+
 
 def test(SA, SB, number=10000):
     sa_victory = 0
@@ -14,10 +23,12 @@ def test(SA, SB, number=10000):
     tie = 0
 
     for _ in range(number):
-        sa = Solider('SA', SA)
-        sb = Solider('SB', SB)
+        sa = Solider(LOCALIZATION[SA] + 'A', SOLIDER_MAP[SA])
+        sb = Solider(LOCALIZATION[SB] + 'B', SOLIDER_MAP[SB])
 
         winner = fighting(sa, sb)
+        # print(f"第{_ + 1}回合：{winner}胜利")
+
         if winner == sa.name:
             sa_victory += 1
         elif winner == sb.name:
@@ -29,52 +40,18 @@ def test(SA, SB, number=10000):
 
 
 if __name__ == '__main__':
-    SA = {
-        const.HEALTH: 1000,
-        const.P_DAMAGE: 10,
-        const.E_DAMAGE: 0,
-        const.ARMOR: 0,
-        const.SHIELD: 0,
-        const.LOAD: 100,
-        const.DODGE: 50
-    }
+    A = 'alien_warrior'
+    B = 'psionic_warrior'
 
-    SB = {
-        const.HEALTH: 1000,
-        const.P_DAMAGE: 10,
-        const.E_DAMAGE: 0,
-        const.ARMOR: 0,
-        const.SHIELD: 0,
-        const.LOAD: 100,
-        const.DODGE: 50
-    }
-
-    with open("resource/equipment.json", 'r', encoding='utf-8') as f:
-        equipment_map = json.load(f)
-
-    sa = Solider('SA', SA)
-    sb = Solider('SB', SB)
-
-    sa.add_equipment(Equipment('a1', equipment_map[const.ARMOR]))
-    sa.add_equipment(Equipment('a2', equipment_map[const.ARMOR]))
-    sa.add_equipment(Equipment('a3', equipment_map[const.ARMOR]))
-    sb.add_equipment(Equipment('a4', equipment_map[const.ARMOR]))
-
-    winner = fighting(sa, sb)
-
-    print(sa)
-    print(sb)
-    print("Win: ", winner)
-
-    # a, b, t = test(SA, SB)
+    a, b, t = test(A, B)
     # result = []
     # for i in range(10, 90):
     #     SA[const.DODGE] = i
     #     result.append(test(SA, SB))
 
-    # print('SA胜率{:.2%}'.format(a))
-    # print('SB胜率{:.2%}'.format(b))
-    # print('平局率{:.2%}'.format(t))
+    print('【{} A】胜率{:.2%}'.format(LOCALIZATION[A], a))
+    print('【{} B】胜率{:.2%}'.format(LOCALIZATION[B], b))
+    print('平局率{:.2%}'.format(t))
 
     # plt.figure(1)
     # x = [i for i in range(10, 90)]
